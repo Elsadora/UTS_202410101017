@@ -1,9 +1,15 @@
 <?php
-    //Koneksi Database
+    //Koneksi Database local
     $server = "localhost";
     $user = "root";
     $pass = "";
     $database = "uas202410101017";
+
+    //Koneksi Database server
+    // $server = "localhost";
+    // $user = "uas202410101017";
+    // $pass = "secret";
+    // $database = "202410101017";
 
     $koneksi = mysqli_connect($server, $user, $pass, $database) or die(mysqli_error($koneksi));
     $query = "SELECT * from fakultas ORDER BY jumlah_animo DESC";
