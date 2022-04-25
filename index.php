@@ -1,19 +1,11 @@
 <?php
-    //Koneksi Database local
+    //Koneksi Database
     $server = "localhost";
     $user = "root";
     $pass = "";
     $database = "uas202410101017";
 
-    //Koneksi Database server
-    // $server = "localhost";
-    // $user = "uas202410101017";
-    // $pass = "secret";
-    // $database = "202410101017";
-
     $koneksi = mysqli_connect($server, $user, $pass, $database) or die(mysqli_error($koneksi));
-    $query = "SELECT * from fakultas ORDER BY jumlah_animo DESC";
-    $result = mysqli_query($koneksi, $query);
 
     //Jika tombol simpan di klik
     if(isset($_POST['bsimpan']))
@@ -94,25 +86,6 @@
             }
         }
     }
-    //pengujian tombol sorting
-    if (isset($_POST['sorting'])) :
-        require_once 'db.php';
-        $sorting = $_POST['sorting'];
-
-        $query = mysqli_query($koneksi, "SELECT * FROM fakultas ORDER BY jumlah_animo " . $sorting . "");
-        while ($row = mysqli_fetch_object($query)) : ?>
-        <tr id="content">
-            <td><?=$no++?></td>
-            <td><?=$data['fakultas']?></td>
-            <td><?=$data['jumlah_animo']?></td>
-            <td>
-                <a href="index.php?hal=edit&id= <?=$data['idFak']?>" class="btn btn-warning">Edit</a>
-                <a href="index.php?hal=delete&id= <?=$data['idFak']?>" onclick="return confirm ('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-    <?php
-        endwhile;
-    endif;
 ?>
 
 <!DOCTYPE html>
@@ -127,6 +100,14 @@
     <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"/>
     <script src="https://kit.fontawesome.com/0d95b64c38.js" crossorigin="anonymous"></script>
 <style>
+    body {
+        background-color: lightcyan;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+            "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+    .card {
+        box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.50);
+    }
     aside{
         float: right;
         width: 20%;
@@ -158,7 +139,7 @@
       </div>
     </div>
 </aside>
-<div class="container" id="content">
+<div class="container">
     <!-- Card Form Awal -->
     <div class="card mt-3">
         <div class="card-header bg-primary text-white">
@@ -168,11 +149,11 @@
             <form method="post" action="">
                 <div class="form-group">
                     <label for="">Fakultas</label>
-                    <input type="text" name="tfak" value="<?=@$vfakultas?>" class="form-control" placeholder="Input Fakultas disini" required>
+                    <input type="text" name="tfak" value="<?=@$vfakultas?>" class="form-control" placeholder="Input Fakultas disini!" required>
                 </div>
                 <div class="form-group">
                     <label for="">Jumlah Animo</label>
-                    <input type="text" name="tanim" value="<?=@$vanimo?>" class="form-control" placeholder="Input Jumlah Animo disini" required>
+                    <input type="text" name="tanim" value="<?=@$vanimo?>" class="form-control" placeholder="Input Jumlah Animo disini!" required>
                 </div>
 
                 <button type="submit" class="btn btn-success" name="bsimpan">Simpan</button>
@@ -183,35 +164,40 @@
     <!-- Card Form Akhir -->
 
     <!-- Card Tabel Awal -->
-    <div class="card mt-3" id="content">
+    <div class="card mt-3">
         <div class="card-header bg-success text-white">
             Daftar Fakultas
         </div>
         <div class="card-body">
             <table class="table table-bordered table-striped">
-                <tr>
-                    <th>No.</th>
-                    <th>Fakultas</th>
-                    <th>Jumlah Animo</th>
-                    <th>Aksi</th>
-                </tr>
-                <?php 
-                    $no = 1;
-                    $tampil = mysqli_query($koneksi, "SELECT * from fakultas ORDER BY idFak asc");
-                    while($data = mysqli_fetch_array($tampil)):
-                
-                ?>
-                <tr>
-                    <td><?=$no++?></td>
-                    <td><?=$data['fakultas']?></td>
-                    <td><?=$data['jumlah_animo']?></td>
-                    <td>
-                        <a href="index.php?hal=edit&id= <?=$data['idFak']?>" class="btn btn-warning">Edit</a>
-                        <a href="index.php?hal=delete&id= <?=$data['idFak']?>" onclick="return confirm ('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            <?php endwhile; #penutup perulangan while ?> 
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Fakultas</th>
+                        <th>Jumlah Animo</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="content">
+                    <?php 
+                        $no = 1;
+                        $tampil = mysqli_query($koneksi, "SELECT * from fakultas ORDER BY idFak asc");
+                        while($data = mysqli_fetch_array($tampil)):
+                    
+                    ?>
+                    <tr>
+                        <td><?=$no++?></td>
+                        <td><?=$data['fakultas']?></td>
+                        <td><?=$data['jumlah_animo']?></td>
+                        <td>
+                            <a href="index.php?hal=edit&id= <?=$data['idFak']?>" class="btn btn-warning">Edit</a>
+                            <a href="index.php?hal=delete&id= <?=$data['idFak']?>" onclick="return confirm ('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <?php endwhile; #penutup perulangan while ?> 
+                </tbody>
             </table>
+        
         </div>
     </div>
     <!-- Card Tabel Akhir -->
