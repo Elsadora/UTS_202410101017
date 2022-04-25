@@ -7,9 +7,9 @@
 
     //Koneksi Database server
     $server = "localhost";
-    $user = "uas202410101017";
+    $user = "202410101017";
     $pass = "secret";
-    $database = "202410101017";
+    $database = "uas202410101017";
 
 
     $koneksi = mysqli_connect($server, $user, $pass, $database) or die(mysqli_error($koneksi));
